@@ -88,6 +88,7 @@ export default function AgendarCitaPage() {
       return;
     }
 
+    // 👉 ESTA ES LA PARTE CRÍTICA QUE TE FALTABA 👇
     const citaPayload = {
       usuario_id: usuario.id,
       especialidad: formData.especialidad,
@@ -96,6 +97,9 @@ export default function AgendarCitaPage() {
       hora: formData.hora,
       ubicacion: formData.ubicacion,
       estado: 'Programada',
+
+      telefono: usuario.telefono,   // <--- AGREGADO
+      correo: usuario.correo,       // <--- AGREGADO
     };
 
     const method = isEditMode ? 'PATCH' : 'POST';
@@ -107,7 +111,9 @@ export default function AgendarCitaPage() {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(citaPayload),
       });
+
       if (!res.ok) throw new Error('Error al guardar la cita.');
+
       alert(isEditMode ? 'Cita actualizada correctamente.' : 'Cita agendada con éxito.');
       router.push('/dashboard');
     } catch (error) {
